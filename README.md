@@ -2,14 +2,12 @@
 
 End-to-end test of the Four Seasons booking funnel, in Playwright and TypeScript.
 
-The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), checks rates for a date 30 days
-out, adds a room to the cart, opens the cart and verifies the room and its price. It stops there: nothing is
-booked and no guest details are entered.
+The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), checks rates for a date 30 days out, adds a room to the cart, opens the cart and verifies the room and its price. It stops there: nothing is booked and no guest details are entered.
 
 Recording of a live run:
 [WebM](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.webm) ·
-[run details](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.json) ·
-[trace](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.trace.zip)
+[View run details](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.json) ·
+
 
 ## Running
 
