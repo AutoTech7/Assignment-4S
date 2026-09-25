@@ -43,7 +43,7 @@ npm run report      # HTML report; failures include trace, screenshot and video
 
 Pricing:
 
-- The rate card rounds to whole units (CAD 1,449) and the cart shows cents (CAD 1,448.81). Prices are parsed
+- The test captures the displayed room rate at runtime and compares it with the corresponding rate shown in the cart. No fixed room price or currency is hard-coded. Prices are parsed
   into integer minor units and must share a currency and differ by less than one display unit.
 - The estimated total adds a 15% service charge and taxes, so it must be 1.15–1.6× the room subtotal.
 - Currency follows the visitor's location; nothing assumes CAD.
