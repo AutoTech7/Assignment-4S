@@ -18,10 +18,9 @@ The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), c
 | e. Open the cart                   | cart panel open                                                                                 |
 | f. Verify the room and pricing     | one item under the property; dates, room, bed, rate plan, guests; nightly rate; estimated total |
 
-Pricing:
+## Pricing Validation
 
-- The test captures the displayed room rate at runtime and compares it with the corresponding rate shown in the cart. No fixed room price or currency is hard-coded. Prices are parsed into integer minor units and must share a currency and differ by less than one display unit.
-- Currency follows the visitor's location.
+Room pricing is captured dynamically from the rate results page. The test stores the selected room and displayed nightly rate, adds that room to the cart and then verifies that the corresponding room and price are shown in the cart. No fixed room price or currency is hard-coded. Currency follows the visitor's location.
 
 ## Running the Tests
 
@@ -100,14 +99,6 @@ Environment variables or a `.env` file ([`.env.example`](.env.example)). Invalid
 | `SLOW_MO`                  | `0`, or `400` when recording                                |
 | `BLOCK_THIRD_PARTY`        | `true`                                                      |
 
-## Pricing Validation
-
-Room pricing is captured dynamically from the rate results page.
-
-The test stores the selected room and displayed nightly rate, adds that room to the cart, and then verifies that the corresponding room and price are shown in the cart.
-
-No fixed room price or currency is hard-coded.
-
 ## Findings
 
 Observed on the live site. None blocks the scenario.
@@ -116,8 +107,7 @@ Observed on the live site. None blocks the scenario.
 2. Bed-option radio buttons have no accessible name (WCAG 1.3.1, 4.1.2).
 3. The cart button's accessible name omits the item count.
 4. A survey pop-over can cover the page right after a room is added
-   ([screenshot](docs/images/live-cart-with-survey-popover.jpg)).
-
+   
 ## Known Limitations
 
 - Only Chromium has run against the live site.
