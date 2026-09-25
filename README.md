@@ -47,7 +47,6 @@ npm run report      # HTML report; failures include trace, screenshot and video
 
 A successful execution of the required Four Seasons booking flow:
 [Watch the automated test](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.webm)
-
 [View run details](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.json)
 
 ## CI/CD
