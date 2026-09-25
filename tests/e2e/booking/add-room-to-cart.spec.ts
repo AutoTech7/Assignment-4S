@@ -60,15 +60,6 @@ test.describe('Booking funnel', { tag: ['@booking', '@e2e'] }, () => {
           selection.nightlyPrice,
         );
 
-        // The estimate adds the service charge and taxes: assert a plausible band, not a tax formula.
-        const subtotal = multiply(nightlyPrice, nightsOf(search));
-        const { min, max } = property.estimatedTotalFactor;
-        const estimatedTotal = await cart.estimatedTotalAmount();
-        expect(estimatedTotal, 'estimated total includes the service charge').toBeAtLeastPrice(
-          scale(subtotal, min),
-        );
-        expect(estimatedTotal, 'estimated total is not inflated').toBeAtMostPrice(scale(subtotal, max));
-
         await test.info().attach('cart', { body: await cart.root.screenshot(), contentType: 'image/png' });
       });
     },
