@@ -100,16 +100,22 @@ Environment variables or a `.env` file ([`.env.example`](.env.example)). Invalid
 | `SLOW_MO`                  | `0`, or `400` when recording                                |
 | `BLOCK_THIRD_PARTY`        | `true`                                                      |
 
+## Pricing Validation
+
+Room pricing is captured dynamically from the rate results page.
+
+The test stores the selected room and displayed nightly rate, adds that room to the cart, and then verifies that the corresponding room and price are shown in the cart.
+
+No fixed room price or currency is hard-coded.
+
 ## Findings
 
 Observed on the live site. None blocks the scenario.
 
-1. The rate card and the cart show the same rate at different precision, CAD 1,449 and CAD 1,448.81
-   ([screenshot](docs/images/live-cart.jpg)).
-2. The estimated total is 38% above the nightly rate while taxes read "to be calculated at checkout".
-3. Bed-option radio buttons have no accessible name (WCAG 1.3.1, 4.1.2).
-4. The cart button's accessible name omits the item count.
-5. A survey pop-over can cover the page right after a room is added
+1. The estimated total is 38% above the nightly rate while taxes read "to be calculated at checkout".
+2. Bed-option radio buttons have no accessible name (WCAG 1.3.1, 4.1.2).
+3. The cart button's accessible name omits the item count.
+4. A survey pop-over can cover the page right after a room is added
    ([screenshot](docs/images/live-cart-with-survey-popover.jpg)).
 
 ## Known Limitations
