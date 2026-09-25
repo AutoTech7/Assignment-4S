@@ -2,8 +2,6 @@ import { expect as baseExpect } from '@playwright/test';
 import {
   displayUnit,
   formatMoney,
-  isAtLeast,
-  isAtMost,
   matchesWithinRounding,
   type Money,
 } from '@utils/money';
