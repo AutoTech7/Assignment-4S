@@ -32,32 +32,4 @@ export const expect = baseExpect.extend({
         `Received: ${formatMoney(received)}`,
     };
   },
-
-  /** Same currency and ≥ `minimum`. */
-  toBeAtLeastPrice(received: Money, minimum: Money) {
-    const pass = isAtLeast(received, minimum);
-    const hint = this.utils.matcherHint('toBeAtLeastPrice', 'received', 'minimum', { isNot: this.isNot });
-    return {
-      pass,
-      name: 'toBeAtLeastPrice',
-      expected: formatMoney(minimum),
-      actual: formatMoney(received),
-      message: () =>
-        `${hint}\n\nExpected: ${this.isNot ? '< ' : '≥ '}${formatMoney(minimum)}\nReceived: ${formatMoney(received)}`,
-    };
-  },
-
-  /** Same currency and ≤ `maximum`. */
-  toBeAtMostPrice(received: Money, maximum: Money) {
-    const pass = isAtMost(received, maximum);
-    const hint = this.utils.matcherHint('toBeAtMostPrice', 'received', 'maximum', { isNot: this.isNot });
-    return {
-      pass,
-      name: 'toBeAtMostPrice',
-      expected: formatMoney(maximum),
-      actual: formatMoney(received),
-      message: () =>
-        `${hint}\n\nExpected: ${this.isNot ? '> ' : '≤ '}${formatMoney(maximum)}\nReceived: ${formatMoney(received)}`,
-    };
-  },
 });
