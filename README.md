@@ -7,7 +7,6 @@ out, adds a room to the cart, opens the cart and verifies the room and its price
 booked and no guest details are entered.
 
 Recording of a live run:
-[MP4](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.mp4) ·
 [WebM](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.webm) ·
 [run details](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.json) ·
 [trace](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.trace.zip)
