@@ -52,7 +52,7 @@ export default defineConfig({
         navigationTimeout: 60_000,
         launchOptions: { slowMo: env.slowMoMs, args: chromiumArgs },
         screenshot: 'only-on-failure',
-        trace: env.recordMode ? 'on' : 'retain-on-failure',
+        trace: 'retain-on-failure',
         video: { mode: env.recordMode ? 'on' : 'retain-on-failure', size: VIEWPORT },
       },
     },
