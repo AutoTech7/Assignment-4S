@@ -59,6 +59,4 @@ test.describe('live-site contract (captured 2026-09-23)', () => {
   test('cart price equals the rate-card price once display rounding is accounted for', () => {
     expect(parseMoney(LIVE.cartItemPrice)).toMatchPriceWithinRounding(selection.nightlyPrice);
   });
-
- });
 });
