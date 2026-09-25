@@ -1,0 +1,35 @@
+{
+  "name": "fourseasons-booking-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright end-to-end tests for the Four Seasons booking funnel.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:e2e": "playwright test --project=e2e",
+    "test:unit": "playwright test --project=unit",
+    "test:debug": "playwright test --project=e2e --debug",
+    "test:offline": "node scripts/offline.mjs",
+    "test:mutations": "node scripts/offline.mjs --mutations",
+    "record": "node scripts/record.mjs",
+    "report": "playwright show-report",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "verify": "npm run typecheck && npm run lint && npm run format:check && npm run test:unit"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.30.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^22.10.0",
+    "eslint": "^9.30.0",
+    "eslint-plugin-playwright": "^2.2.0",
+    "prettier": "3.8.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.39.0"
+  }
+}

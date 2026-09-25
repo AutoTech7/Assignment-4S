@@ -1,0 +1,125 @@
+name: E2E
+
+# quality      typecheck, lint, format, unit tests            pull requests, pushes to main
+# e2e-offline  spec against the offline replica, self-test    pull requests, pushes to main
+# e2e-live     spec against www.fourseasons.com               weekday schedule, manual
+#
+# The schedule runs only when the LIVE_E2E_SCHEDULE variable is "true". GitHub-hosted runners are usually
+# blocked by the site's bot manager; set E2E_RUNNER to a runner whose IP the site allow-lists.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 11 * * 1-5' # weekdays 11:00 UTC ≈ 07:00 New York
+  workflow_dispatch:
+    inputs:
+      grep:
+        description: 'Only run tests whose title or tag matches (e.g. @smoke)'
+        required: false
+        default: ''
+      check_in_offset_days:
+        description: 'Check-in = today + N days'
+        required: false
+        default: '30'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Typecheck · lint · format · unit
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm run test:unit
+
+  e2e-offline:
+    name: E2E vs offline replica + self-test
+    needs: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Cache browsers
+        id: browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
+      - run: npx playwright install --with-deps chromium
+        if: steps.browsers.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps chromium
+        if: steps.browsers.outputs.cache-hit == 'true'
+      - run: npm run test:offline
+      - run: npm run test:mutations
+      - name: Upload report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: offline-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+
+  e2e-live:
+    name: E2E vs www.fourseasons.com
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.LIVE_E2E_SCHEDULE == 'true') }}
+    runs-on: ${{ vars.E2E_RUNNER || 'ubuntu-latest' }}
+    timeout-minutes: 20
+    env:
+      HEADLESS: 'false' # headed under Xvfb; see README › Bot protection
+      CHECK_IN_OFFSET_DAYS: ${{ inputs.check_in_offset_days || '30' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - name: Cache browsers
+        id: browsers
+        uses: actions/cache@v5
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('package-lock.json') }}
+      - run: npx playwright install --with-deps chromium
+        if: steps.browsers.outputs.cache-hit != 'true'
+      - run: npx playwright install-deps chromium
+        if: steps.browsers.outputs.cache-hit == 'true'
+
+      - name: Run live E2E
+        env:
+          GREP: ${{ inputs.grep }} # passed via env, never interpolated into the script (injection-safe)
+        run: xvfb-run --auto-servernum -- npx playwright test --project=e2e ${GREP:+--grep "$GREP"}
+
+      - name: Upload report (HTML, JUnit; traces and videos of failures)
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v6
+        with:
+          name: live-report-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
