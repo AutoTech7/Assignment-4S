@@ -92,6 +92,7 @@ test.describe('price comparison', () => {
     expect(formatMoney(multiply(cart, 3))).toBe('CAD 4,346.43');
     expect(formatMoney(scale(cart, 1.15))).toBe('CAD 1,666.13');
   });
+  
   test('rounding matcher reports both amounts and the tolerance', () => {
     expect(cart).toMatchPriceWithinRounding(card);
 
