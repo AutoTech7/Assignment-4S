@@ -1,8 +1,8 @@
 import { CABO_DEL_SOL } from '@data/properties';
 import { adultsLabel, cartItemTitle } from '@models/booking';
 import { expect, test } from '@fixtures';
-import { formatMoney, multiply, scale } from '@utils/money';
-import { formatStay, nightsOf } from '@utils/stay-range';
+import { formatMoney } from '@utils/money';
+import { formatStay } from '@utils/stay-range';
 
 const property = CABO_DEL_SOL;
 
@@ -59,7 +59,6 @@ test.describe('Booking funnel', { tag: ['@booking', '@e2e'] }, () => {
         expect(nightlyPrice, 'nightly rate in cart vs. rate card').toMatchPriceWithinRounding(
           selection.nightlyPrice,
         );
-
         await test.info().attach('cart', { body: await cart.root.screenshot(), contentType: 'image/png' });
       });
     },
