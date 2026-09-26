@@ -1,10 +1,5 @@
 import { expect as baseExpect } from '@playwright/test';
-import {
-  displayUnit,
-  formatMoney,
-  matchesWithinRounding,
-  type Money,
-} from '@utils/money';
+import { displayUnit, formatMoney, matchesWithinRounding, type Money } from '@utils/money';
 
 /** Price matchers whose failure messages show both amounts (and the tolerance, where one applies). */
 export const expect = baseExpect.extend({

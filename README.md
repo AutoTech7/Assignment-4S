@@ -1,6 +1,7 @@
 # Four Seasons Web QA Technical Assessment
 
-## Overview 
+## Overview
+
 End-to-end test of the Four Seasons booking in Playwright and TypeScript.
 
 The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), checks rates for a date 30 days out, adds a room to the cart, opens the cart and verifies the room and its price. It stops there.
@@ -40,7 +41,6 @@ npm run report      # HTML report; failures include trace, screenshot and video
 | `npm run verify`         | typecheck, lint, format check, unit tests                                |
 | `npm run test:offline`   | the spec against a local replica of the funnel                           |
 | `npm run test:mutations` | seeds cart defects in the replica; each must fail the intended assertion |
-
 
 ## Test Recording
 
@@ -84,6 +84,7 @@ src/
 tests/           e2e/, unit/
 tools/           offline replica of the funnel
 ```
+
 ## Configuration
 
 Environment variables or a `.env` file ([`.env.example`](.env.example)). Invalid values fail fast.
@@ -107,7 +108,7 @@ Observed on the live site. None blocks the scenario.
 2. Bed-option radio buttons have no accessible name (WCAG 1.3.1, 4.1.2).
 3. The cart button's accessible name omits the item count.
 4. A survey pop-over can cover the page right after a room is added
-   
+
 ## Known Limitations
 
 - Only Chromium has run against the live site.

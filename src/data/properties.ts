@@ -10,7 +10,6 @@ export interface Property {
   readonly slug: string;
   /** Official name, as in the page title and the cart's property heading. */
   readonly displayName: string;
-  
 }
 
 export const CABO_DEL_SOL = {
@@ -18,7 +17,6 @@ export const CABO_DEL_SOL = {
   region: 'North America',
   slug: 'cabodelsol',
   displayName: 'Four Seasons Resort Cabo Del Sol',
-  
 } as const satisfies Property;
 
 /** Property home page, e.g. /cabodelsol/ (query string and hash tolerated). */

@@ -13,7 +13,7 @@ const reporters: ReporterDescription[] = [
 ];
 
 const chromiumArgs = [
-    // Ad/social pixels and the survey pop-over fail DNS instead of loading (see network-hygiene.ts).
+  // Ad/social pixels and the survey pop-over fail DNS instead of loading (see network-hygiene.ts).
   ...(env.blockThirdParty ? [`--host-resolver-rules=${hostResolverRules()}`] : []),
 ];
 
