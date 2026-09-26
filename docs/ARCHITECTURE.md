@@ -42,15 +42,15 @@ carries on if none comes.
 
 Elements without a hook are reached from the nearest one with a single XPath axis step:
 
-| Element         | Anchor                | Step                                       |
-| --------------- | --------------------- | ------------------------------------------ |
-| rate row        | booking button        | nearest ancestor containing _Rate Details_ |
-| rate name       | _Rate Details_ button | preceding sibling                          |
-| rate price      | rate fees disclaimer  | preceding sibling                          |
-| selected bed    | checked radio         | its label's following sibling              |
-| cart item       | item fees disclaimer  | nearest ancestor containing _Remove_       |
-| cart price      | item fees disclaimer  | preceding sibling                          |
-| cart dates      | property heading      | following sibling                          |
+| Element      | Anchor                | Step                                       |
+| ------------ | --------------------- | ------------------------------------------ |
+| rate row     | booking button        | nearest ancestor containing _Rate Details_ |
+| rate name    | _Rate Details_ button | preceding sibling                          |
+| rate price   | rate fees disclaimer  | preceding sibling                          |
+| selected bed | checked radio         | its label's following sibling              |
+| cart item    | item fees disclaimer  | nearest ancestor containing _Remove_       |
+| cart price   | item fees disclaimer  | preceding sibling                          |
+| cart dates   | property heading      | following sibling                          |
 
 `/find_a_hotel_or_resort/` renders every hotel once per category tab, plus featured links with the same
 text, so the property link is looked up inside the visible _North America_ region.
@@ -60,7 +60,7 @@ text, so the property link is looked up inside the visible _North America_ regio
 `Money` stores integer minor units and the displayed precision (`CAD 1,448.81` is `144881` at precision 2);
 currency codes are validated against ISO 4217. Two prices match when the currency is the same and they
 differ by less than one unit of the coarser display, which holds whether the rate card rounds, floors or
-ceils. 
+ceils.
 
 ## Resilience
 

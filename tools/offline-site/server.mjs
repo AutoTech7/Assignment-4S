@@ -30,7 +30,6 @@ export const DEFECTS = Object.freeze({
   adults: { description: 'a different number of guests is shown', caughtBy: 'guests' },
   dates: { description: 'check-out is one day later than searched', caughtBy: 'stay dates' },
   count: { description: 'the room is in the cart twice', caughtBy: 'exactly one room in the cart' },
-
 });
 
 const ROOMS = [
