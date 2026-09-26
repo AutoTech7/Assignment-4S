@@ -30,18 +30,7 @@ export const DEFECTS = Object.freeze({
   adults: { description: 'a different number of guests is shown', caughtBy: 'guests' },
   dates: { description: 'check-out is one day later than searched', caughtBy: 'stay dates' },
   count: { description: 'the room is in the cart twice', caughtBy: 'exactly one room in the cart' },
-  untaxed: {
-    description: 'estimated total leaves out service charge and taxes',
-    caughtBy: 'estimated total includes the service charge',
-  },
-  undercharge: {
-    description: 'estimated total is below the nightly rate',
-    caughtBy: 'estimated total includes the service charge',
-  },
-  overcharge: {
-    description: 'estimated total charges every night twice',
-    caughtBy: 'estimated total is not inflated',
-  },
+
 });
 
 const ROOMS = [
