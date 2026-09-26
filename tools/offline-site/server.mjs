@@ -143,10 +143,7 @@ function toggleCartPanel() {
         '</div></div><div><span>' + price + '</span><span data-cy="shopping-cart-item__taxes-and-fees">' +
         ' before addition of Service Charge plus taxes per night</span></div></div>';
     }
-    // ≈ 15 % service charge + taxes, as observed live; the total defects distort it.
-    const uplift = { untaxed: 1, undercharge: 0.5, overcharge: 2 * 1.3786 }[DEFECT] ?? 1.3786;
-    const total = readCart().reduce((sum, item) => sum + item.price * item.nights * uplift, 0);
-    html += '<div><span>Taxes &amp; Fees</span><span>To be calculated at checkout</span></div>' +
+    const total = readCart().reduce((sum, item) => sum + item.price * item.nights * 1.3786, 0);    html += '<div><span>Taxes &amp; Fees</span><span>To be calculated at checkout</span></div>' +
       '<div><span>Est. Total</span><span>' + cad(Math.round(total * 100) / 100, 2) + '</span></div>' +
       '<a href="#">Check out itinerary</a>';
   }
