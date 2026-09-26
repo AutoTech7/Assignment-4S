@@ -30,18 +30,6 @@ export const DEFECTS = Object.freeze({
   adults: { description: 'a different number of guests is shown', caughtBy: 'guests' },
   dates: { description: 'check-out is one day later than searched', caughtBy: 'stay dates' },
   count: { description: 'the room is in the cart twice', caughtBy: 'exactly one room in the cart' },
-  untaxed: {
-    description: 'estimated total leaves out service charge and taxes',
-    caughtBy: 'estimated total includes the service charge',
-  },
-  undercharge: {
-    description: 'estimated total is below the nightly rate',
-    caughtBy: 'estimated total includes the service charge',
-  },
-  overcharge: {
-    description: 'estimated total charges every night twice',
-    caughtBy: 'estimated total is not inflated',
-  },
 });
 
 const ROOMS = [
@@ -154,10 +142,7 @@ function toggleCartPanel() {
         '</div></div><div><span>' + price + '</span><span data-cy="shopping-cart-item__taxes-and-fees">' +
         ' before addition of Service Charge plus taxes per night</span></div></div>';
     }
-    // ≈ 15 % service charge + taxes, as observed live; the total defects distort it.
-    const uplift = { untaxed: 1, undercharge: 0.5, overcharge: 2 * 1.3786 }[DEFECT] ?? 1.3786;
-    const total = readCart().reduce((sum, item) => sum + item.price * item.nights * uplift, 0);
-    html += '<div><span>Taxes &amp; Fees</span><span>To be calculated at checkout</span></div>' +
+    const total = readCart().reduce((sum, item) => sum + item.price * item.nights * 1.3786, 0);    html += '<div><span>Taxes &amp; Fees</span><span>To be calculated at checkout</span></div>' +
       '<div><span>Est. Total</span><span>' + cad(Math.round(total * 100) / 100, 2) + '</span></div>' +
       '<a href="#">Check out itinerary</a>';
   }

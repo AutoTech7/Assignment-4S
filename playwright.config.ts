@@ -13,8 +13,6 @@ const reporters: ReporterDescription[] = [
 ];
 
 const chromiumArgs = [
-  // Keeps navigator.webdriver unset; see README › Bot protection.
-  '--disable-blink-features=AutomationControlled',
   // Ad/social pixels and the survey pop-over fail DNS instead of loading (see network-hygiene.ts).
   ...(env.blockThirdParty ? [`--host-resolver-rules=${hostResolverRules()}`] : []),
 ];
@@ -52,7 +50,7 @@ export default defineConfig({
         navigationTimeout: 60_000,
         launchOptions: { slowMo: env.slowMoMs, args: chromiumArgs },
         screenshot: 'only-on-failure',
-        trace: env.recordMode ? 'on' : 'retain-on-failure',
+        trace: 'retain-on-failure',
         video: { mode: env.recordMode ? 'on' : 'retain-on-failure', size: VIEWPORT },
       },
     },

@@ -1,18 +1,29 @@
-# fourseasons-booking-e2e
+# Four Seasons Web QA Technical Assessment
 
-End-to-end test of the Four Seasons booking funnel, in Playwright and TypeScript.
+## Overview
 
-The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), checks rates for a date 30 days
-out, adds a room to the cart, opens the cart and verifies the room and its price. It stops there: nothing is
-booked and no guest details are entered.
+End-to-end test of the Four Seasons booking in Playwright and TypeScript.
 
-Recording of a live run:
-[MP4](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.mp4) ·
-[WebM](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.webm) ·
-[run details](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.json) ·
-[trace](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.trace.zip)
+The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), checks rates for a date 30 days out, adds a room to the cart, opens the cart and verifies the room and its price. It stops there.
 
-## Running
+## Automated Scenario
+
+[`tests/e2e/booking/add-room-to-cart.spec.ts`](tests/e2e/booking/add-room-to-cart.spec.ts)
+
+| Step                               | Checks                                                                         |
+| ---------------------------------- | ------------------------------------------------------------------------------ |
+| a. Open `/find_a_hotel_or_resort/` | page loaded, not bot-blocked                                                   |
+| b. Select Los Cabos (Cabo del Sol) | property URL and title, availability widget                                    |
+| c. Check rates for today + 30 days | results page for the selected dates                                            |
+| d. Add the first bookable room     | header shows `Cart(1)`                                                         |
+| e. Open the cart                   | cart panel open                                                                |
+| f. Verify the room and pricing     | one item under the property; dates, room, bed, rate plan, guests; nightly rate |
+
+## Pricing Validation
+
+Room pricing is captured dynamically from the rate results page. The test stores the selected room and displayed nightly rate, adds that room to the cart and then verifies that the corresponding room and price are shown in the cart. No fixed room price or currency is hard-coded. Currency follows the visitor's location.
+
+## Running the Tests
 
 Requires Node 22+.
 
@@ -31,27 +42,26 @@ npm run report      # HTML report; failures include trace, screenshot and video
 | `npm run test:offline`   | the spec against a local replica of the funnel                           |
 | `npm run test:mutations` | seeds cart defects in the replica; each must fail the intended assertion |
 
-## Scenario
+## Test Recording
 
-[`tests/e2e/booking/add-room-to-cart.spec.ts`](tests/e2e/booking/add-room-to-cart.spec.ts)
+A successful execution of the required Four Seasons booking flow:
+[Watch the automated test](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.webm)
+[View run details](recordings/guest-adds-a-cabo-del-sol-room-to-the-cart-and-sees-it-with-the-correct-price.json)
 
-| Step                               | Checks                                                                                          |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------- |
-| a. Open `/find_a_hotel_or_resort/` | page loaded, not bot-blocked                                                                    |
-| b. Select Los Cabos (Cabo del Sol) | property URL and title, availability widget                                                     |
-| c. Check rates for today + 30 days | results page for the selected dates                                                             |
-| d. Add the first bookable room     | header shows `Cart(1)`                                                                          |
-| e. Open the cart                   | cart panel open                                                                                 |
-| f. Verify the room and pricing     | one item under the property; dates, room, bed, rate plan, guests; nightly rate; estimated total |
+## CI/CD
 
-Pricing:
+[`.github/workflows/e2e.yml`](.github/workflows/e2e.yml)
 
-- The rate card rounds to whole units (CAD 1,449) and the cart shows cents (CAD 1,448.81). Prices are parsed
-  into integer minor units and must share a currency and differ by less than one display unit.
-- The estimated total adds a 15% service charge and taxes, so it must be 1.15–1.6× the room subtotal.
-- Currency follows the visitor's location; nothing assumes CAD.
+| Job           | Trigger                      | Runs                                                  |
+| ------------- | ---------------------------- | ----------------------------------------------------- |
+| `quality`     | pull request, push to `main` | typecheck, lint, format check, unit tests             |
+| `e2e-offline` | pull request, push to `main` | the spec against the replica, then the mutation check |
+| `e2e-live`    | weekdays 11:00 UTC, manual   | the spec against the live site, headed under Xvfb     |
 
-## Design
+The schedule stays off until the `LIVE_E2E_SCHEDULE` variable is `true`. `E2E_RUNNER` selects a runner the
+site allow-lists.
+
+## Design Decisions
 
 - Page objects (`src/pages`) and shared widgets (`src/components`) own every locator; the spec has none.
 - Locators prefer the site's own hooks (`data-tracking-id`, `data-cy`), then roles, then component classes.
@@ -75,26 +85,6 @@ tests/           e2e/, unit/
 tools/           offline replica of the funnel
 ```
 
-## Bot protection
-
-The site runs Akamai Bot Manager, which blocks most headless and datacenter traffic. Tests run headed with
-`--disable-blink-features=AutomationControlled`, with no stealth plugins, fingerprint spoofing or CAPTCHA
-solving. A block fails immediately with `BotProtectionError`. Scheduled runs need the runner's IP
-allow-listed by the site owner.
-
-## CI
-
-[`.github/workflows/e2e.yml`](.github/workflows/e2e.yml)
-
-| Job           | Trigger                      | Runs                                                  |
-| ------------- | ---------------------------- | ----------------------------------------------------- |
-| `quality`     | pull request, push to `main` | typecheck, lint, format check, unit tests             |
-| `e2e-offline` | pull request, push to `main` | the spec against the replica, then the mutation check |
-| `e2e-live`    | weekdays 11:00 UTC, manual   | the spec against the live site, headed under Xvfb     |
-
-The schedule stays off until the `LIVE_E2E_SCHEDULE` variable is `true`. `E2E_RUNNER` selects a runner the
-site allow-lists.
-
 ## Configuration
 
 Environment variables or a `.env` file ([`.env.example`](.env.example)). Invalid values fail fast.
@@ -108,21 +98,18 @@ Environment variables or a `.env` file ([`.env.example`](.env.example)). Invalid
 | `HEADLESS`                 | `false`, or `true` when `CI` is set                         |
 | `BROWSER_CHANNEL`          | bundled Chromium; `npm run record` uses Chrome if installed |
 | `SLOW_MO`                  | `0`, or `400` when recording                                |
-| `BLOCK_THIRD_PARTY`        | `true`                                                      |
+| `BLOCK_THIRD_PARTY`        | `false`                                                     |
 
 ## Findings
 
 Observed on the live site. None blocks the scenario.
 
-1. The rate card and the cart show the same rate at different precision, CAD 1,449 and CAD 1,448.81
-   ([screenshot](docs/images/live-cart.jpg)).
-2. The estimated total is 38% above the nightly rate while taxes read "to be calculated at checkout".
-3. Bed-option radio buttons have no accessible name (WCAG 1.3.1, 4.1.2).
-4. The cart button's accessible name omits the item count.
-5. A survey pop-over can cover the page right after a room is added
-   ([screenshot](docs/images/live-cart-with-survey-popover.jpg)).
+1. The estimated total is 38% above the nightly rate while taxes read "to be calculated at checkout".
+2. Bed-option radio buttons have no accessible name (WCAG 1.3.1, 4.1.2).
+3. The cart button's accessible name omits the item count.
+4. A survey pop-over can cover the page right after a room is added
 
-## Limitations
+## Known Limitations
 
 - Only Chromium has run against the live site.
 - Expected prices come from the UI. Asserting against the rates API response would remove the rounding

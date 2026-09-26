@@ -11,7 +11,7 @@ test.describe('configuration', () => {
       checkInOffsetDays: 30,
       nights: 1,
       availabilitySearchDays: 14,
-      blockThirdParty: true,
+      blockThirdParty: false,
       slowMoMs: 0,
     });
   });

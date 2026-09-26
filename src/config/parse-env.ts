@@ -65,7 +65,7 @@ export function parseEnv(source: Source) {
     checkInOffsetDays: readInteger(source, 'CHECK_IN_OFFSET_DAYS', 30, { min: 1, max: 330 }),
     nights: readInteger(source, 'NIGHTS', 1, { min: 1, max: 14 }),
     availabilitySearchDays: readInteger(source, 'AVAILABILITY_SEARCH_DAYS', 14, { min: 0, max: 60 }),
-    blockThirdParty: readBoolean(source, 'BLOCK_THIRD_PARTY', true),
+    blockThirdParty: readBoolean(source, 'BLOCK_THIRD_PARTY', false),
   });
 }
 

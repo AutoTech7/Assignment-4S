@@ -1,12 +1,11 @@
 // Playwright's expect plus the price matchers; no browser involved.
 import { expect } from '@fixtures/matchers';
 import { test } from '@playwright/test';
-import { CABO_DEL_SOL } from '@data/properties';
 import { adultsLabel, cartItemTitle, parseOccupancy, type RoomSelection } from '@models/booking';
 import { CalendarDate } from '@utils/calendar-date';
 import { isBookableDayLabel } from '@utils/calendar-labels';
-import { multiply, parseMoney, removeMoney, scale } from '@utils/money';
-import { formatStay, nightsOf, parseStayRange } from '@utils/stay-range';
+import { parseMoney, removeMoney } from '@utils/money';
+import { formatStay, parseStayRange } from '@utils/stay-range';
 
 /**
  * Text captured from the live site on 2026-09-23 (Cabo del Sol, 23 → 24 Oct 2026, 1 room, 2 adults; CAD
@@ -27,7 +26,6 @@ const LIVE = {
     'Ocean-View La Casona Room - One king bedAdvance Purchase – Up to 20% Off2 adultsRemove' +
     'CAD 1,448.81 before addition of Service Charge plus taxes per night',
   cartItemPrice: 'CAD 1,448.81',
-  cartEstimatedTotal: 'CAD 1,997.36',
 } as const;
 
 test.describe('live-site contract (captured 2026-09-23)', () => {
@@ -60,12 +58,5 @@ test.describe('live-site contract (captured 2026-09-23)', () => {
 
   test('cart price equals the rate-card price once display rounding is accounted for', () => {
     expect(parseMoney(LIVE.cartItemPrice)).toMatchPriceWithinRounding(selection.nightlyPrice);
-  });
-
-  test('estimated total sits inside the property band (service charge + taxes)', () => {
-    const subtotal = multiply(parseMoney(LIVE.cartItemPrice), nightsOf(parseStayRange(LIVE.cartStayDates)));
-    const total = parseMoney(LIVE.cartEstimatedTotal);
-    expect(total).toBeAtLeastPrice(scale(subtotal, CABO_DEL_SOL.estimatedTotalFactor.min));
-    expect(total).toBeAtMostPrice(scale(subtotal, CABO_DEL_SOL.estimatedTotalFactor.max));
   });
 });

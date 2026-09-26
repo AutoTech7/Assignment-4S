@@ -1,0 +1,13 @@
+{
+  "test": "Booking funnel › guest adds a Cabo del Sol room to the cart and sees it with the correct price",
+  "status": "passed",
+  "startedAt": "2026-09-25T18:22:29.673Z",
+  "durationSeconds": 29,
+  "site": "https://www.fourseasons.com",
+  "browser": "chrome 122.0.6261.129",
+  "os": "win32 10.0.26200",
+  "selection": {
+    "Stay": "2026-10-25 → 2026-10-26 · 2 adults",
+    "Room": "Ocean-View La Casona Room - One king bed · Advance Purchase – Up to 20% Off · CAD 1,210/night"
+  }
+}

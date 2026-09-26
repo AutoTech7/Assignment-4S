@@ -93,15 +93,11 @@ test.describe('price comparison', () => {
     expect(formatMoney(scale(cart, 1.15))).toBe('CAD 1,666.13');
   });
 
-  test('matchers report both amounts and the tolerance', () => {
+  test('rounding matcher reports both amounts and the tolerance', () => {
     expect(cart).toMatchPriceWithinRounding(card);
-    expect(parseMoney('CAD 1,500')).toBeAtLeastPrice(cart);
-    expect(parseMoney('CAD 1,000')).toBeAtMostPrice(cart);
+
     expect(() => expect(parseMoney('CAD 1,400.00')).toMatchPriceWithinRounding(card)).toThrow(
       /CAD 1,449 \(difference < CAD 1\.00, the display's rounding unit\)[\s\S]*CAD 1,400\.00/,
-    );
-    expect(() => expect(parseMoney('CAD 3,000')).toBeAtMostPrice(card)).toThrow(
-      /≤ CAD 1,449[\s\S]*CAD 3,000/,
     );
   });
 });

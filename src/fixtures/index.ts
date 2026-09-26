@@ -60,8 +60,6 @@ export const test = base.extend<BookingFixtures>({
       }),
     );
   },
-
-  // eslint-disable-next-line no-empty-pattern -- Playwright requires object destructuring for fixture deps.
   stayRequest: async ({}, use) => {
     await use(stayRequestFromEnv());
   },
