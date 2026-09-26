@@ -17,7 +17,7 @@ The scenario opens _Find a Hotel or Resort_, selects Los Cabos (Cabo del Sol), c
 | c. Check rates for today + 30 days | results page for the selected dates                                                             |
 | d. Add the first bookable room     | header shows `Cart(1)`                                                                          |
 | e. Open the cart                   | cart panel open                                                                                 |
-| f. Verify the room and pricing     | one item under the property; dates, room, bed, rate plan, guests; nightly rate; estimated total |
+| f. Verify the room and pricing     | one item under the property; dates, room, bed, rate plan, guests; nightly rate |
 
 ## Pricing Validation
 
@@ -98,7 +98,7 @@ Environment variables or a `.env` file ([`.env.example`](.env.example)). Invalid
 | `HEADLESS`                 | `false`, or `true` when `CI` is set                         |
 | `BROWSER_CHANNEL`          | bundled Chromium; `npm run record` uses Chrome if installed |
 | `SLOW_MO`                  | `0`, or `400` when recording                                |
-| `BLOCK_THIRD_PARTY`        | `true`                                                      |
+| `BLOCK_THIRD_PARTY`        | `false`                                                      |
 
 ## Findings
 
