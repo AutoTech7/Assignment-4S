@@ -51,7 +51,6 @@ Elements without a hook are reached from the nearest one with a single XPath axi
 | cart item       | item fees disclaimer  | nearest ancestor containing _Remove_       |
 | cart price      | item fees disclaimer  | preceding sibling                          |
 | cart dates      | property heading      | following sibling                          |
-| estimated total | "Est. Total"          | following sibling                          |
 
 `/find_a_hotel_or_resort/` renders every hotel once per category tab, plus featured links with the same
 text, so the property link is looked up inside the visible _North America_ region.
@@ -61,8 +60,7 @@ text, so the property link is looked up inside the visible _North America_ regio
 `Money` stores integer minor units and the displayed precision (`CAD 1,448.81` is `144881` at precision 2);
 currency codes are validated against ISO 4217. Two prices match when the currency is the same and they
 differ by less than one unit of the coarser display, which holds whether the rate card rounds, floors or
-ceils. The estimated total is checked against a per-property band (`estimatedTotalFactor`, 1.15–1.6× for
-Cabo del Sol; the live cart was 1.38×) rather than a tax formula.
+ceils. 
 
 ## Resilience
 
@@ -85,7 +83,7 @@ cart. Traces, screenshots and videos are kept for failures, and for every run in
 
 `tools/offline-site` is a dependency-free replica of the four pages with the same roles, hooks and timing
 quirks. `npm run test:mutations` requires the spec to pass on it with and without the post-add redirect, to
-fail with `BotProtectionError` on a block page, and to fail on the intended assertion for each of 11 cart
+fail with `BotProtectionError` on a block page, and to fail on the intended assertion for each of 8 cart
 defects. The replica proves the assertions and the flow logic; only the live run proves the locators.
 
 ## Extending
